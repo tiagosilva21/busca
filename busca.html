@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.imt input{
+			width: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<input type='text' id='url'>
+		<input type='button' id='btn' onclick="myUrl()" value="Buscar">
+	</div>
+<table>
+	<thead>
+		<tr>
+			<td>Produto</td>
+			<td>Quant</td>
+			<td>Vl. por Fardo.</td>
+			<td>Quant. no Fardo</td>
+			<td>Vl. Unit.</td>
+			<td>Vl. Total</td>
+		</tr>
+	</thead>
+	<tbody id="produto">
+		
+	</tbody>
+</table>
+<script type="text/javascript" src="https://releases.jquery.com/git/jquery-3.x-git.min.js"></script>
+<script type="text/javascript">
+	
+	var url = "";
+var pdd = [];
+var qdd = [];
+var unt = [];
+var ttl = [];
+	function myUrl(){
+		url = document.getElementById("url").value;
+	//"http://nfce.sefaz.al.gov.br/QRCode/consultarNFCe.jsp?p=27211206057223038497650190000629941191299912|2|1|1|00E9E58C39E71A611497ED1115829F68C7331DF0";
+	var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", url, false);
+		xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+	var nota = xhttp.responseText;
+
+	var snota = nota.split('<div id="u20" class="txtTopo">');
+	var forn = snota[1].split('</div>');
+
+	var pd = nota.split('<table border="0" align="center" cellpadding="0" cellspacing="0" id="tabResult" data-filter="true">');
+	var pd1 = pd[1].split('</table>');
+	//for
+	var pd2 = pd1[0].split('</tr>');
+	//console.log(pd2[0]);
+	var pd3 = pd2[0].split('</span>');
+	//var p4 = pd3[0].split('<span class="txtTit">');
+	//console.log(p4[1]);
+	/*var p5 = pd3[2].split('</strong>');
+	console.log(p5[1]);
+	var p6 = pd3[4].split('</strong>');
+	var p61 = p6[1].split('&nbsp;');
+	var p62 = p61[1].split('');
+	console.log(p61[1]);
+	var p7 = pd3[5].split('<span class="valor">');
+	console.log(p7[1]);
+
+*/
+	var prod = []
+	for (let i = 0; i < pd2.length; i++) {
+		var p3 = pd2[i].split('</span>');
+		//var p4 = pd3[i].split('<span class="txtTit">');
+	  	prod.push(p3);
+
+
+	  	//var p5 = pd3[i].split('</strong>');
+	  //	console.log(p5[i][1]);
+
+
+	  	//var p6 = pd3[i].split('</strong>');
+		//var p61 = p6[i][1].split('&nbsp;');
+	
+		//console.log(p61[i][1]);
+
+		//var p7 = pd3[i].split('<span class="valor">');
+		//console.log(p7[i][1]);
+
+	}
+	//console.log(prod);
+
+	for(let i = 0; i < prod.length-1; i++){
+		
+		//for(let j = 0; j < prod[i].length; j++){
+			var p = prod[i][0].split('<span class="txtTit">');
+			pdd.push(p[1]);
+			var pq = prod[i][2].split('</strong>');
+			qdd.push(pq[1]);
+			var pu = prod[i][4].split('</strong>\n\t\t\t\t\t\t\t\t\t\t&nbsp;\n\t\t\t\t\t\t\t\t\t\t');
+			unt.push(pu[1]);
+			var pt = prod[i][5].split('<span class="valor">');
+			ttl.push(pt[1]);
+		//}
+	}
+//console.log(pdd);
+//console.log(qdd);
+//console.log(unt);
+//console.log(ttl);
+var dados = "";
+	for(let i = 0; i < pdd.length; i++){
+		 dados += "<tr><td>"+pdd[i]+"</td><td>"+qdd[i]+"</td><td>"+unt[i]+"</td><td class='imt'><input type='text' id='fardo"+i+"' onchange='myFardo("+i+")'></td><td id='funt"+i+"' >"+unt[i]+"</td><td>"+ttl[i]+"</td></tr>";
+
+	}
+	document.getElementById("produto").innerHTML = dados;
+}
+function myFardo(e){
+	
+	//console.log(unt[e]);
+	var un = unt[e].replace(/\,/, '.');
+	var qt = qdd[e].replace(/\,/, '.');
+	//console.log(un);
+	var qant = document.getElementById('fardo'+e).value;
+	var unid = un/qant;
+	 unid = unid.toFixed(3);
+	var conta = unid.replace(/\./, ',');
+	//console.log(unid);
+	document.getElementById('funt'+e).innerHTML = conta;
+}
+</script>
+</body>
+</html>
