@@ -38,7 +38,7 @@ var unt = [];
 var ttl = [];
 	function myUrl(){
 		url = document.getElementById("url").value;
-	//"http://nfce.sefaz.al.gov.br/QRCode/consultarNFCe.jsp?p=27211206057223038497650190000629941191299912|2|1|1|00E9E58C39E71A611497ED1115829F68C7331DF0";
+	
 	var xhttp = new XMLHttpRequest();
 		xhttp.open("GET", url, false);
 		xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
@@ -51,20 +51,10 @@ var ttl = [];
 	var pd1 = pd[1].split('</table>');
 	//for
 	var pd2 = pd1[0].split('</tr>');
-	//console.log(pd2[0]);
+	
 	var pd3 = pd2[0].split('</span>');
-	//var p4 = pd3[0].split('<span class="txtTit">');
-	//console.log(p4[1]);
-	/*var p5 = pd3[2].split('</strong>');
-	console.log(p5[1]);
-	var p6 = pd3[4].split('</strong>');
-	var p61 = p6[1].split('&nbsp;');
-	var p62 = p61[1].split('');
-	console.log(p61[1]);
-	var p7 = pd3[5].split('<span class="valor">');
-	console.log(p7[1]);
+	
 
-*/
 	var prod = []
 	for (let i = 0; i < pd2.length; i++) {
 		var p3 = pd2[i].split('</span>');
@@ -100,10 +90,7 @@ var ttl = [];
 			ttl.push(pt[1]);
 		//}
 	}
-//console.log(pdd);
-//console.log(qdd);
-//console.log(unt);
-//console.log(ttl);
+
 var dados = "";
 	for(let i = 0; i < pdd.length; i++){
 		 dados += "<tr><td>"+pdd[i]+"</td><td>"+qdd[i]+"</td><td>"+unt[i]+"</td><td class='imt'><input type='text' id='fardo"+i+"' onchange='myFardo("+i+")'></td><td id='funt"+i+"' >"+unt[i]+"</td><td>"+ttl[i]+"</td></tr>";
